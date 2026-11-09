@@ -1,0 +1,10 @@
+data/
+experiments/results/*
+!experiments/results/summary/
+*.npz
+*.npy
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+paper/*.pdf

@@ -1,0 +1,46 @@
+{
+  "n_wells": 64464,
+  "n_plates": 141,
+  "n_sources": 11,
+  "n_batches": 107,
+  "n_features_raw": 4762,
+  "n_features_kept": 3615,
+  "wells_per_plate": {
+    "count": 141.0,
+    "mean": 457.1914893617021,
+    "std": 282.70509406936037,
+    "min": 363.0,
+    "25%": 384.0,
+    "50%": 384.0,
+    "75%": 384.0,
+    "max": 1536.0
+  },
+  "pert_type_counts": {
+    "trt": 43593,
+    "control": 20871
+  },
+  "control_type_counts": {
+    "NaN": 43593,
+    "negcon": 10809,
+    "poscon_diverse": 4701,
+    "poscon_cp": 4354,
+    "poscon_orf": 1007
+  },
+  "n_trt_compounds": 255,
+  "n_control_compounds": 46,
+  "trt_with_moa": 248,
+  "unmapped_wells": 0,
+  "plates_per_source": {
+    "source_10": 6,
+    "source_11": 7,
+    "source_13": 6,
+    "source_2": 10,
+    "source_3": 25,
+    "source_4": 22,
+    "source_5": 24,
+    "source_6": 21,
+    "source_7": 7,
+    "source_8": 4,
+    "source_9": 9
+  }
+}

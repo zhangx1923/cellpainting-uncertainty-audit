@@ -1,0 +1,258 @@
+{
+ "title": "Plate-anchored trust audit pipeline for Cell Painting AI under lab shift",
+ "canvas": {
+  "width": 1180,
+  "height": 500
+ },
+ "style": {
+  "font_family": "Helvetica, Arial, sans-serif",
+  "font_size": 12,
+  "bg_color": "#FFFFFF",
+  "palette": [
+   "#DBEAFE",
+   "#DCFCE7",
+   "#FEF3C7",
+   "#FCE7F3",
+   "#E0E7FF",
+   "#F3F4F6"
+  ]
+ },
+ "nodes": [
+  {
+   "id": "plates",
+   "label": "Training labs\n(JUMP-CP TARGET2)",
+   "sublabel": "10 labs, 128 plates",
+   "x": 90,
+   "y": 110,
+   "width": 150,
+   "height": 62,
+   "fill": "#DBEAFE",
+   "stroke": "#60A5FA"
+  },
+  {
+   "id": "newlab",
+   "label": "Deployed lab\n(unseen source)",
+   "sublabel": "new microscope, protocol",
+   "x": 90,
+   "y": 300,
+   "width": 150,
+   "height": 62,
+   "fill": "#FCE7F3",
+   "stroke": "#F472B6"
+  },
+  {
+   "id": "integ",
+   "label": "Data-integrity\nchecks",
+   "sublabel": "finite, non-constant",
+   "x": 275,
+   "y": 110,
+   "width": 150,
+   "height": 62,
+   "fill": "#F3F4F6",
+   "stroke": "#9CA3AF"
+  },
+  {
+   "id": "norm",
+   "label": "Per-plate control\nnormalisation",
+   "sublabel": "robust z vs. plate DMSO",
+   "x": 440,
+   "y": 110,
+   "width": 140,
+   "height": 62,
+   "fill": "#F3F4F6",
+   "stroke": "#9CA3AF"
+  },
+  {
+   "id": "repr",
+   "label": "Feature selection\n+ PCA",
+   "sublabel": "fit on training plates",
+   "x": 605,
+   "y": 110,
+   "width": 140,
+   "height": 62,
+   "fill": "#F3F4F6",
+   "stroke": "#9CA3AF"
+  },
+  {
+   "id": "clf",
+   "label": "Classifier\n(compound / inactive)",
+   "sublabel": "MLP, early stopping",
+   "x": 770,
+   "y": 110,
+   "width": 150,
+   "height": 62,
+   "fill": "#E0E7FF",
+   "stroke": "#818CF8"
+  },
+  {
+   "id": "cal",
+   "label": "Split-conformal\ncalibration (ID plates)",
+   "sublabel": "threshold q at level 1-\u03b1",
+   "x": 950,
+   "y": 110,
+   "width": 160,
+   "height": 62,
+   "fill": "#E0E7FF",
+   "stroke": "#818CF8"
+  },
+  {
+   "id": "norm2",
+   "label": "Per-plate control\nnormalisation",
+   "sublabel": "new plate's own DMSO",
+   "x": 440,
+   "y": 300,
+   "width": 140,
+   "height": 62,
+   "fill": "#F3F4F6",
+   "stroke": "#9CA3AF"
+  },
+  {
+   "id": "canary",
+   "label": "Control canary",
+   "sublabel": "poscon accuracy in range?",
+   "x": 605,
+   "y": 300,
+   "width": 150,
+   "height": 62,
+   "fill": "#FEF3C7",
+   "stroke": "#F59E0B"
+  },
+  {
+   "id": "recal",
+   "label": "Plate-anchored\nrecalibration",
+   "sublabel": "control-anchored thresholds",
+   "x": 770,
+   "y": 300,
+   "width": 150,
+   "height": 62,
+   "fill": "#DCFCE7",
+   "stroke": "#4ADE80"
+  },
+  {
+   "id": "out",
+   "label": "Prediction set\n+ abstain / flag plate",
+   "sublabel": "audit report per plate",
+   "x": 950,
+   "y": 300,
+   "width": 160,
+   "height": 62,
+   "fill": "#DCFCE7",
+   "stroke": "#4ADE80"
+  },
+  {
+   "id": "flag",
+   "label": "Plate flagged",
+   "sublabel": "report, no automatic call",
+   "x": 770,
+   "y": 420,
+   "width": 150,
+   "height": 56,
+   "fill": "#FEE2E2",
+   "stroke": "#F87171"
+  }
+ ],
+ "edges": [
+  {
+   "from": "plates",
+   "to": "integ"
+  },
+  {
+   "from": "integ",
+   "to": "norm"
+  },
+  {
+   "from": "norm",
+   "to": "repr"
+  },
+  {
+   "from": "repr",
+   "to": "clf"
+  },
+  {
+   "from": "clf",
+   "to": "cal"
+  },
+  {
+   "from": "newlab",
+   "to": "norm2"
+  },
+  {
+   "from": "norm2",
+   "to": "canary"
+  },
+  {
+   "from": "canary",
+   "to": "recal",
+   "color": "#16A34A"
+  },
+  {
+   "from": "recal",
+   "to": "out"
+  },
+  {
+   "from": "cal",
+   "to": "recal",
+   "label": "q, ID control coverage",
+   "style": "dashed"
+  },
+  {
+   "from": "clf",
+   "to": "canary",
+   "label": "probabilities",
+   "style": "dotted"
+  },
+  {
+   "from": "repr",
+   "to": "norm2",
+   "label": "frozen transform",
+   "style": "dotted"
+  },
+  {
+   "from": "canary",
+   "to": "flag",
+   "label": "out of regime",
+   "style": "dashed",
+   "color": "#DC2626"
+  }
+ ],
+ "groups": [
+  {
+   "id": "g_train",
+   "label": "A. Build & calibrate (training labs only)",
+   "node_ids": [
+    "integ",
+    "norm",
+    "repr",
+    "clf",
+    "cal"
+   ],
+   "fill": "#F8FAFC",
+   "stroke": "#CBD5E1",
+   "padding": 22
+  },
+  {
+   "id": "g_deploy",
+   "label": "B. Unseen lab",
+   "node_ids": [
+    "norm2",
+    "canary",
+    "recal",
+    "out",
+    "flag"
+   ],
+   "fill": "#FFF7ED",
+   "stroke": "#FDBA74",
+   "padding": 22
+  }
+ ],
+ "labels": [
+  {
+   "text": "Unseen lab: no treatment-well labels; each plate carries 64 DMSO wells and 46 positive controls whose identities the plate map records",
+   "x": 590,
+   "y": 482,
+   "font_size": 11,
+   "color": "#6B7280",
+   "anchor": "middle"
+  }
+ ]
+}
