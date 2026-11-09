@@ -87,15 +87,6 @@ scripts/download_data.sh, scripts/reproduce_all.sh
 
 Paths are resolved relative to the repository root; set `TRUST_ROOT=/path/to/repo` to override.
 
-## Citation
-
-```bibtex
-@inproceedings{cellpainting-uncertainty-audit,
-  title     = {Does the Assay Know What the Model Doesn't? Auditing the Uncertainty of Cell Painting Compound Classifiers Under Laboratory Shift},
-  author    = {YOUR NAME and CO-AUTHORS},
-  booktitle = {ACM Conference on Trustworthy and Responsible AI and Computing Systems (TRUST)},
-  year      = {2027}
-}
 ```
 
 ## License
